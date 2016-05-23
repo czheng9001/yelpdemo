@@ -12,8 +12,6 @@
 <body>
 	<%= render 'layouts/navbar' %> 
 	<div class = "container-fluid">
-		<!-- %'s are embedded ruby -->
-		<!-- %= shows the ruby contents, % for variables -->
 		<% flash.each do |name, msg| %>
 	      <% if msg.is_a?(String) %>
 	        <div class="alert alert-<%= name == "notice" ? "success" : "danger" %> alert-dismissable">
