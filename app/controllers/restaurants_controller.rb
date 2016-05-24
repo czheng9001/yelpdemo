@@ -1,10 +1,18 @@
 class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :check_user, except: [:index, :show]
+  before_action :authenticate_user!, except: [:search, :index, :show]
+  before_action :check_user, except: [:search, :index, :show]
 
   # GET /restaurants
   # GET /restaurants.json
+  def search 
+    if params[:search].present?
+      @restaurants = Restaurant.search(params[:search])
+    else
+      @restaurants = Restaurants.all
+    end
+  end
+
   def index
     @restaurants = Restaurant.all
   end
@@ -79,6 +87,12 @@ class RestaurantsController < ApplicationController
     def restaurant_params
       params.require(:restaurant).permit(:name, :address, :phone, :website, :image)
     end
+
+    # def check_user
+    #   unless current_user.try(:admin?)
+    #     redirect_to root_url, alert: "Sorry, only admins can do that!"
+    #   end
+    # end
 
     def check_user
       unless current_user.admin?
